@@ -1,0 +1,4 @@
+fastapi
+pydantic
+fal-client
+uvicorn
