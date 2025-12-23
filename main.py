@@ -1,18 +1,20 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
-import fal_client
 
 app = FastAPI()
 
-class Request(BaseModel):
+class PromptRequest(BaseModel):
     prompt: str
 
+@app.get("/")
+def root():
+    return {"status": "API is running"}
+
 @app.post("/generate-video")
-def generate_video(req: Request):
-    result = fal_client.subscribe(
-        "fal-ai/pika/v2.2/text-to-video",
-        input={"prompt": req.prompt}
-    )
+def generate_video(data: PromptRequest):
     return {
-        "video_url": result["data"]["video"]["url"]
+        "message": "Video generation started",
+        "prompt_received": data.prompt,
+        "video_url": "https://example.com/video.mp4"
     }
+
